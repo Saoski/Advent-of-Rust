@@ -41,7 +41,7 @@ fn quick_sort(list: Vec<i32>) -> Vec<i32> {
     [quick_sort(less), equal, quick_sort(greater)].concat()
 }
 
-fn main() {
+fn part1() {
     let (left_list, right_list) = read_file("inputs\\1");
     for i in 0..left_list.len() {
         println!("{} {}", left_list[i], right_list[i]);
@@ -53,4 +53,24 @@ fn main() {
         sum += (sorted_left_list[i] - sorted_right_list[i]).abs();
     }
     println!("{}", sum);
+}
+
+fn count(num: i32, vec: &Vec<i32>) -> usize {
+    vec.iter().filter(|x| **x == num).count()
+}
+
+fn part2() {
+    let (left_list, right_list) = read_file("inputs\\1");
+    let sorted_left_list = quick_sort(left_list);
+    let sorted_right_list = quick_sort(right_list);
+    let mut total: usize = 0;
+    for num in sorted_left_list {
+        total += count(num, &sorted_right_list) * num as usize;
+    }
+    println!("{}", total);
+}
+
+fn main() {
+    part1();
+    part2();
 }
