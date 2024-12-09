@@ -17,7 +17,23 @@ fn part_1() {
 }
 
 fn part_2() {
-    let hay = read_file("inputs\\3").as_str();
+    let binding = read_file("inputs\\3");
+    let hay = binding.as_str();
+    let re: Regex = Regex::new(r"(mul\((\d+),(\d+)\)|do(|n't)()\(\))").unwrap();
+    let mut sum = 0;
+    let mut is_active = true;
+    for (_, [capture, num1, num2]) in re.captures_iter(hay).map(|c| c.extract()) {
+        if capture == "do()" {
+            is_active = true;
+        } else if capture == "don't()" {
+            is_active = false;
+        } else {
+            if is_active {
+                sum += num1.parse::<i32>().unwrap() * num2.parse::<i32>().unwrap();
+            }
+        }
+    }
+    println!("{}", sum)
 }
 
 fn main() {
