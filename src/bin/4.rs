@@ -35,10 +35,9 @@ fn check_horizontals(data: &Vec<String>) -> usize {
     let mut total_count: usize = 0;
     let word: String = String::from(WORD);
     for string in data {
-        for i in 0..string.len() - word.len() {
+        for i in 0..=string.len() - word.len() {
             let puzzle_word: String = String::from(&string[i..i + word.len()]);
             let reversed_puzzle_word: String = reverse_string(&puzzle_word);
-            println!("{} {} {}", word, puzzle_word, reversed_puzzle_word);
             if puzzle_word == word || reversed_puzzle_word == word {
                 total_count += 1;
             }
@@ -50,7 +49,7 @@ fn check_horizontals(data: &Vec<String>) -> usize {
 fn check_verticles(data: &Vec<String>) -> usize {
     let mut total_count: usize = 0;
     let word: String = String::from(WORD);
-    for i in 0..data.len() - word.len() {
+    for i in 0..=data.len() - word.len() {
         for j in 0..data[0].len() {
             let i_indices: [usize; WORD.len()] = from_fn(|index| i + index);
             let j_indices: [usize; WORD.len()] = [j; WORD.len()];
@@ -67,8 +66,8 @@ fn check_verticles(data: &Vec<String>) -> usize {
 fn check_rising_diagonals(data: &Vec<String>) -> usize {
     let mut total_count: usize = 0;
     let word: String = String::from(WORD);
-    for i in word.len()..data.len() {
-        for j in 0..data[0].len() - word.len() {
+    for i in word.len() - 1..data.len() {
+        for j in 0..=data[0].len() - word.len() {
             let i_indices: [usize; WORD.len()] = from_fn(|index| i - index);
             let j_indices: [usize; WORD.len()] = from_fn(|index| j + index);
             let puzzle_word = string_from_indices(data, i_indices, j_indices).unwrap();
@@ -84,8 +83,8 @@ fn check_rising_diagonals(data: &Vec<String>) -> usize {
 fn check_falling_diagonals(data: &Vec<String>) -> usize {
     let mut total_count: usize = 0;
     let word: String = String::from(WORD);
-    for i in 0..data.len() - word.len() {
-        for j in 0..data[0].len() - word.len() {
+    for i in 0..=data.len() - word.len() {
+        for j in 0..=data[0].len() - word.len() {
             let i_indices: [usize; WORD.len()] = from_fn(|index| i + index);
             let j_indices: [usize; WORD.len()] = from_fn(|index| j + index);
             let puzzle_word = string_from_indices(data, i_indices, j_indices).unwrap();
@@ -98,14 +97,11 @@ fn check_falling_diagonals(data: &Vec<String>) -> usize {
     total_count
 }
 fn part_1() {
-    let data: Vec<String> = read_file("inputs\\4test");
+    let data: Vec<String> = read_file("inputs\\4");
     let mut total_count = 0;
     total_count += check_horizontals(&data);
-    println!("{}", total_count);
     total_count += check_verticles(&data);
-    println!("{}", total_count);
     total_count += check_falling_diagonals(&data);
-    println!("{}", total_count);
     total_count += check_rising_diagonals(&data);
     println!("{}", total_count);
 }
