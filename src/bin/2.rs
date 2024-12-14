@@ -54,7 +54,6 @@ fn is_safe2(report: &Vec<usize>) -> bool {
         return true;
     }
     let local_report = report.to_owned();
-    let mut is_unsafe = false;
     for i in 0..local_report.len() {
         let mut popped_report = local_report.clone();
         popped_report.remove(i);
