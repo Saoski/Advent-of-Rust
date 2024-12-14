@@ -96,6 +96,26 @@ fn check_falling_diagonals(data: &Vec<String>) -> usize {
     }
     total_count
 }
+
+fn check_x(data: &Vec<String>) -> u32 {
+    let mut total_count = 0;
+    let word: String = String::from("MAS");
+    for i in 1..data.len() - 1 {
+        for j in 1..data[0].len() - 1 {
+            let falling_diagonal: String =
+                string_from_indices(data, [i - 1, i, i + 1], [j - 1, j, j + 1]).unwrap();
+            let rising_diagonal: String =
+                string_from_indices(data, [i + 1, i, i - 1], [j - 1, j, j + 1]).unwrap();
+            if (falling_diagonal == word || reverse_string(&falling_diagonal) == word)
+                && (rising_diagonal == word || reverse_string(&rising_diagonal) == word)
+            {
+                total_count += 1
+            }
+        }
+    }
+    total_count
+}
+
 fn part_1() {
     let data: Vec<String> = read_file("inputs\\4");
     let mut total_count = 0;
@@ -106,7 +126,10 @@ fn part_1() {
     println!("{}", total_count);
 }
 
-fn part_2() {}
+fn part_2() {
+    let data: Vec<String> = read_file("inputs\\4");
+    println!("{}", check_x(&data))
+}
 
 fn main() {
     part_1();
