@@ -39,7 +39,7 @@ fn part2() {
             let num = update[i];
             let numbers_after = get_numbers_after(&rules, num);
             let mut j = 0;
-            while j < update.len() {
+            while j < i {
                 if numbers_after.contains(&update[j]) {
                     insert_before(&mut update, i, j);
                     break;
@@ -84,6 +84,9 @@ fn get_relevant_rules<'a>(
 
 fn update_is_valid_for_rule(rule: &Vec<usize>, update: &Vec<usize>) -> bool {
     let rule: [usize; 2] = rule.clone().try_into().expect("Rule is not of length 2");
+    if !update.contains(&rule[0]) || !update.contains(&rule[1]) {
+        return true;
+    }
     let (before, after) = (rule[0], rule[1]);
     for page in update {
         if page == &before {
